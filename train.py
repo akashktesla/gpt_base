@@ -14,11 +14,9 @@ n_embd = 64
 n_head = 4
 n_layer = 4
 dropout = 0.0
-# ------------
 
 torch.manual_seed(1337)
 
-# wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
 with open('input.txt', 'r', encoding='utf-8') as f:
     text = f.read()
 
@@ -210,4 +208,11 @@ for iter in range(max_iters):
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=2000)[0].tolist()))
+
+path = "models/gpt_test.pth"
+print(f"Saving model to: {path}")
+torch.save(obj = m.state_dict(), f=path) 
+
+
+
 
