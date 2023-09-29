@@ -17,7 +17,7 @@ dropout = 0.0
 
 torch.manual_seed(1337)
 
-with open('input.txt', 'r', encoding='utf-8') as f:
+with open('geng.txt', 'r', encoding='utf-8') as f:
     text = f.read()
 
 # here are all the unique characters that occur in this text
@@ -68,7 +68,6 @@ class Head(nn.Module):
         self.query = nn.Linear(n_embd, head_size, bias=False)
         self.value = nn.Linear(n_embd, head_size, bias=False)
         self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
-
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
@@ -145,7 +144,6 @@ class BigramLanguageModel(nn.Module):
 
     def forward(self, idx, targets=None):
         B, T = idx.shape
-
         # idx and targets are both (B,T) tensor of integers
         tok_emb = self.token_embedding_table(idx) # (B,T,C)
         pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
@@ -209,7 +207,7 @@ for iter in range(max_iters):
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=2000)[0].tolist()))
 
-path = "models/gpt_test.pth"
+path = "models/gpt_geng.pth"
 print(f"Saving model to: {path}")
 torch.save(obj = m.state_dict(), f=path) 
 
